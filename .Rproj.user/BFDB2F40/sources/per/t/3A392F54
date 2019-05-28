@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1525189453344.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "569920672",
+    "id" : "3A392F54",
+    "lastKnownWriteTime" : 1525185236,
+    "last_content_update" : 1525185236,
+    "path" : "~/Dropbox/Brainerd_Lab/Projects/Catfish_swallowing/Code/distPointToPlane_aaron.R",
+    "project_path" : "distPointToPlane_aaron.R",
+    "properties" : {
+        "cursorPosition" : "1,3",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

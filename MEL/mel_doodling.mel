@@ -1,0 +1,84 @@
+/*
+Load bone OBJs from a directory according to an ID tag (ex: $objID="Cat 01")
+*/
+{
+
+string $projectDirectory="/Users/hannah/Dropbox/Brainerd_Lab/Projects/Catfish_swallowing/Data/";
+
+string $objDirectory=($projectDirectory + "Bone_OBJs/");
+
+string $objID="Cat 01 ";
+
+string $sourceFiles[]=`getFileList -folder $objDirectory -fs ($objID + "*.obj")`;
+
+for ($file in $sourceFiles) {
+    //print ($file + "\n");
+    string $obj=($objDirectory + $file);
+    
+    string $boneName=`substitute $objID $file ""`;
+    string $boneName2=`substitute ".obj" $boneName ""`;
+    
+    file -import -type "OBJ" -options "mo=1" -namespace $boneName2 -pr $obj;
+    
+    print $obj;
+    }
+    
+}
+
+
+
+/* 
+Create a new layer for each mesh
+*/
+{
+    $layers=`listTransforms -geometry`;
+
+for ($layer in $layers) {
+    select -r $layer;
+    $newLayer=`substitute ":Mesh" $layer ""`;
+    createDisplayLayer -name $newLayer;
+    }
+}
+    
+
+
+
+/*
+Change the color of each bone OBJ to light yellow
+*/   
+
+{
+    $bones=`listTransforms -geometry`;
+    select $bones;
+    hyperShade -smn;
+    string $getMaterial[]=`ls -sl`;
+    setAttr ($getMaterial[0]+".color") -type double3 1 1 0.6 ;
+}
+
+
+
+
+/*
+Import rigid body transforms and assign them
+*/
+
+{
+    print $bonecolor;
+}
+
+selectType;
+
+/* kill everything */
+select -all;
+delete;
+
+
+/*
+Next steps:
+1) Rename each object according to a naming scheme (Hyoid=hy, Pectoral Girdle=cl, etc)
+2) Create a layer for each object in the scene
+2.5) Change colors
+3) Import a set of rigid body transforms and prey bead trajectory
+    - Association dictionary? If file name includes "Hyoid", map RBT to "hy" object, etc?
+4) Animate prey particle
+*/

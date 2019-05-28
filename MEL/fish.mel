@@ -1,0 +1,63 @@
+global proc fish()
+
+/*Creates nodes to automatically calculate inverseMatrix of cranium to return it to reference pose.
+Parenting all animated models will put them in cranium space.
+Return to parenting under cube space to return to normal.
+
+What if there is no key at frame 0 for reference pose?  Return to CT space?
+
+NOTE: matrixNodes.bundle must be loaded in plug-in manager!!!!!!
+
+created by Steve Gatesy 12/20/16
+last modified ARM 3/22/18
+*/
+{
+	// initialize CTtoRef object test name
+	string $CTtoRef = "beebo"	
+	// if inverse matrix, CTtoref, or matrix decomposition exist, do not execute script
+	if (`objExists ncInverse` || `objExists CTtoref` || `objExists decomposeMatrixNc`) {
+		print ("Surprise! I bet you forgot you put this error message in here, dingdong\n");
+	} else {
+		// set current time to 0?
+		currentTime -edit 0;
+
+		// make new locator named "CTtoref"
+		eval ("spaceLocator -n " $CTtoref);
+
+		//
+
+		print ("belgium!");
+	}
+}
+// {
+// 	if( `objExists ncInverse` || `objExists CTtoref` || `objExists decomposeMatrixNc`)
+// 	{
+// 	print ( "Object ncInverse or CTtoref or decomposeMatrixNc already exists! Please rename or delete\n");
+// 	}
+// 	else
+// 	{
+// 		//create locator with transforms from CT to reference pose
+// 		currentTime -edit 0;
+// 		spaceLocator -n "CTtoref";
+// 		copyAttr -values nc CTtoref;
+// 		setAttr "CTtoref.visibility" 1;
+//
+// 		//create locator with inverseMatrix transforms to undo pelvic animation
+// 		spaceLocator -n "ncInverse";
+//
+// 		//parent ncInverse to CTtoref;
+// 			parent ncInverse CTtoref;
+//
+//
+// 		//create decomposeMatrix node
+// 		createNode -n decomposeMatrixNc decomposeMatrix;
+//
+// 		//connect cranium inverseMatrix to decomposeMatrixNc inputMatrix;
+// 		connectAttr -f nc.inverseMatrix decomposeMatrixNc.inputMatrix;
+//
+// 		//connect decomposeMatrixNc translate, rotate, and scale to ncInverse
+// 		connectAttr -f decomposeMatrixNc.outputTranslate ncInverse.translate;
+// 		connectAttr -f decomposeMatrixNc.outputRotate ncInverse.rotate;
+// 		connectAttr -f decomposeMatrixNc.outputScale ncInverse.scale;
+// 	}
+// }
