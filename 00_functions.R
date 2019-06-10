@@ -67,11 +67,47 @@ filterCols <- function(df, pattern) {
   return(df[, cols])
 }
 
-# ANALYZING DATA ###
+# ANALYZING DATA ####
+
+# Plot XYZ
+# Ex: plotXYZ(loadMotion()[[1]])
+plotXYZ <- function(trial = loadMotion()[[22]],
+                    lwd = 4, xyz_col = c("tomato",
+                                         "mediumseagreen", 
+                                         "cornflowerblue"),
+                    legend.xyz = c(3.9, 0.9)) {
+  plot(trial$time,
+       trial$Prey_bead.x, #%>% diff * fps,
+       ylim = c(-.5, 1.2),
+       type = 'l', lwd = lwd, col = xyz_col[1],
+       panel.first = list(abline(h = c(0, 1.0), col = "lightgrey", lwd = 3)),
+       xlab = "",
+       ylab = expression(paste("Head lengths")),
+       main = "Displacement on body axes",
+       cex.main = 2,
+       cex.lab = 2,
+       cex.axis = 1.5)
+  
+  # Add Y (dorsoventral)
+  points(trial$time,
+         trial$Prey_bead.y,
+         type = 'l', lwd = lwd, col = xyz_col[2])
+  
+  # Then Z (mediolateral)
+  points(trial$time,
+         trial$Prey_bead.z,
+         type = 'l', lwd = lwd, col = xyz_col[3])
+  
+  # Add a legend so I don't have to remember that
+  legend(x = legend.xyz[1], y = legend.xyz[2], 
+         fill = xyz_col,
+         legend = c("AP", "DV", "ML"))
+  
+}
 
 # Find breakpoints
 findBreakpoint <- function(df = loadMotion()[[22]],
-                            method = "x") {
+                            method = "all") {
   
   # if method is "x", take velocity in x direction
   if (method == "x") {
@@ -89,6 +125,7 @@ findBreakpoint <- function(df = loadMotion()[[22]],
                             from = 0.01)
   
   # return list with breakpoint and associated p value
+  # have to add 1 because we used speed/velocity, which starts at frame 2
   list(breakpoint = bp$breakpoint + 1,
              p.val = strucchange::sctest(bp)$p.value)
   

@@ -13,22 +13,22 @@ motion.list <- loadMotion()
 trial.idx <- 22
 trial <- motion.list[[trial.idx]]
 
-## Phase transitions
-
-swallow <- which(trial$Prey_bead.x >= 1)[1] / 300
-handling <- findBreakpoint(trial, method = "all")$breakpoint / 300
-
-## Plot XYZ on the same plot ####
-
-# set plotting aesthetics
+# hardcoded vars/plotting aesthetics
 xyz_col <- c("tomato", "mediumseagreen", "cornflowerblue")
 lwd <- 4
+fps <- 300
+
+## Phase transitions
+swallow <- which(trial$Prey_bead.x >= 1)[1] / fps
+handling <- findBreakpoint(trial, method = "all")$breakpoint / fps
+
+## Plot XYZ on the same plot ####
 
 # plot with legend:
 {
 # Plot X (anterior-posterior)
 plot(trial$time,
-     trial$Prey_bead.x, #%>% diff * 300,
+     trial$Prey_bead.x, #%>% diff * fps,
      ylim = c(-.5, 1.2),
      type = 'l', lwd = lwd, col = xyz_col[1],
      panel.first = list(abline(h = c(0, 1.0), col = "lightgrey", lwd = 3),
@@ -78,7 +78,7 @@ for (i in 2:nrow(food.df)) {
   
   # convert from head lengths/frame to head lengths/second
   # head lengths/frame * 300 frames/sec = head lengths/sec
-  d <- d * 300
+  d <- d * fps
   
   food.df$speed[i] <- d
 }
